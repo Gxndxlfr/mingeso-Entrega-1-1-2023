@@ -7,7 +7,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      dialect: PostgreSQLDialect
+      ddl-auto: create
   datasource:
     dbname: postgres
     url: jdbc:postgresql://localhost:5432/postgres
