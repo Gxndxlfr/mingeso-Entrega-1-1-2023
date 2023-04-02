@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
-    <title>Cargar Acopio</title>
+    <title>Cargar CSV</title>
     <style>
     .container{
       display: flex;
@@ -99,8 +99,8 @@
 </header>
 <div class = "f">
     <div class="container">
-        <h1><b>Cargar el archivo de Acopio</b></h1>
-        <form th:action="@{/fileUpload}" method="POST" enctype="multipart/form-data">
+        <h1><b>Cargar el archivo de Porcentajes</b></h1>
+        <form th:action="@{/file-percentage}" method="POST" enctype="multipart/form-data">
             <br>
             <input type="file" class="form-control" name="file" accept = ".csv">
             <br>
