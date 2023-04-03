@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 @Service
 public class SubirDataService {
@@ -94,4 +95,12 @@ public class SubirDataService {
         dataRepository.save(data);
     }
 
+    public ArrayList<SubirDataEntity> obtenerAcopioPorCodigo(String codigo) {
+        return dataRepository.getbyCodigo(codigo);
+    }
+
+
+    public ArrayList<SubirDataEntity> obtenerAcopioPorTurnoAndCodigo(String turno, String codigo) {
+        return dataRepository.getbyTurnoAndCodigo(turno, codigo);
+    }
 }

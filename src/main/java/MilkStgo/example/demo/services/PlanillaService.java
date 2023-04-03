@@ -2,6 +2,7 @@ package MilkStgo.example.demo.services;
 
 import MilkStgo.example.demo.entities.PlanillaEntity;
 import MilkStgo.example.demo.entities.ProveedorEntity;
+import MilkStgo.example.demo.entities.SubirDataEntity;
 import MilkStgo.example.demo.entities.SubirPorcentajeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +19,31 @@ public class PlanillaService {
     @Autowired
     SubirPorcentajeService subirPorcentajeService;
 
+    @Autowired
+    SubirDataService subirDataService;
+
     public ArrayList<PlanillaEntity> calcularPagos() {
         ArrayList<ProveedorEntity> proveedores = proveedorService.obtenerProveedores();
 
         //recorrer proveedores
         for(ProveedorEntity proveedor:proveedores){
             //Pago de kilo leche según categoria
-            int pagoCategoria = calcularPagoCategoria(proveedor);
-            System.out.println("pagoCategoria = ");
-            System.out.println(pagoCategoria);
+            int multiplicadorCategoria = calcularPagoCategoria(proveedor);
+            System.out.println("multiplicadorCategoria = "+ multiplicadorCategoria);
             //%grasa asociado al proveedor
-            int pagoGrasa = obtenerPagoPorcentajeGrasa(proveedor);
-            System.out.println("pagoGrasa = ");
-            System.out.println(pagoGrasa);
+            int multiplicadorGrasa = obtenerPagoPorcentajeGrasa(proveedor);
+            System.out.println("multiplicadorGrasa = "+multiplicadorGrasa);
 
             //%solidos Totales asociados al proveedor
-            int pagoST = obtenerPagoPorcentajeST(proveedor);
-            System.out.println("pagoST = ");
-            System.out.println(pagoST);
-            //calcular bonificación por frecuencia de entrega
+            int multiplicadorST = obtenerPagoPorcentajeST(proveedor);
+            System.out.println("multiplicadorST = "+ multiplicadorST);
 
+            //kilos de leche entregados
+            int kilosLeche = calcularCantidadKilosLeche(proveedor);
+            System.out.println("kilosLeche: "+kilosLeche);
+            //calcular bonificación por frecuencia de entrega
+            int multiplicadorFrecuencia = obtenerBonificacionFrecuencia(proveedor);
+            System.out.println("MultiplicadorFrecuencia = "+ multiplicadorFrecuencia);
             //calcular descuento variación según quincena anterior
 
             //ver si paga o no impuestos
@@ -47,6 +53,44 @@ public class PlanillaService {
 
 
         return null;
+    }
+
+    private int obtenerBonificacionFrecuencia(ProveedorEntity proveedor) {
+        String codigo = proveedor.getCodigo();
+        ArrayList<SubirDataEntity> acopioM = subirDataService.obtenerAcopioPorTurnoAndCodigo("M",codigo);
+        ArrayList<SubirDataEntity> acopioT = subirDataService.obtenerAcopioPorTurnoAndCodigo("T",codigo);
+
+
+        int sizeM = acopioM.size();
+        int sizeT = acopioT.size();
+        System.out.println(acopioM);
+        System.out.println(sizeM);
+        System.out.println(acopioT);
+        System.out.println(sizeT);
+
+        int sizeTotal = sizeM + sizeT;
+        if(sizeTotal > 10 && sizeM > 0 && sizeT > 0){
+            return 20;
+        }else if(sizeM > 10){
+            return 12;
+        }else if(sizeT > 10){
+            return 8;
+        }
+
+        return 1;
+    }
+
+    private int calcularCantidadKilosLeche(ProveedorEntity proveedor) {
+        String codigo = "0"+proveedor.getCodigo();
+
+        ArrayList<SubirDataEntity> acopio = subirDataService.obtenerAcopioPorCodigo(codigo);
+
+        int cant = 0;
+        for(SubirDataEntity a:acopio){
+            int kilos = Integer.parseInt(a.getKls_leche());
+            cant = cant + kilos;
+        }
+        return cant;
     }
 
     private int obtenerPagoPorcentajeST(ProveedorEntity proveedor) {
