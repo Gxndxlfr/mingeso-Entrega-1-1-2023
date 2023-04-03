@@ -19,4 +19,6 @@ public class SubirPorcentajeEntity {
     private String codigo;
     private String grasa;
     private String solidoTotal;
+
+
 }

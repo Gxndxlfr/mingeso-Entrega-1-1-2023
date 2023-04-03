@@ -91,4 +91,7 @@ public class SubirPorcentajeService {
         porcentajeRepository.save(data);
     }
 
+    public SubirPorcentajeEntity obtenerPorcentajesPorCodigo(String codigo) {
+        return porcentajeRepository.getbyCodigo(codigo);
+    }
 }
