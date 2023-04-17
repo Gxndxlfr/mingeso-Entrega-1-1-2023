@@ -103,4 +103,15 @@ public class SubirDataService {
     public ArrayList<SubirDataEntity> obtenerAcopioPorTurnoAndCodigo(String turno, String codigo) {
         return dataRepository.getbyTurnoAndCodigo(turno, codigo);
     }
+
+    public String obtenerFechaPorCodigo(String codigo) {
+
+        ArrayList<SubirDataEntity> acopio = dataRepository.getbyCodigo(codigo);
+        for(SubirDataEntity a:acopio){
+            if(a.getProveedor().equals(codigo)){
+               return a.getFecha();
+            }
+        }
+        return null;
+    }
 }
