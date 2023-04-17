@@ -64,14 +64,22 @@ public class RegistroQuincenaService {
     public void actualizarDatos(String codigo, int kilos, int stActual, int grasaActual) {
 
         //eliminar por codigo
+        System.out.println("        ------------------");
         registroQuincenaRepository.deleteByCodigo(codigo);
+        System.out.println("        Eliminado by codigo");
         //nueva entidad por codigo
         RegistroQuincenaEntity nuevoRegistro = new RegistroQuincenaEntity();
+        nuevoRegistro.setCodigo(codigo);
         nuevoRegistro.setKilos(String.valueOf(kilos));
         nuevoRegistro.setSt(String.valueOf(stActual));
         nuevoRegistro.setGrasa(String.valueOf(grasaActual));
 
         registroQuincenaRepository.save(nuevoRegistro);
+
+        /*registroQuincenaRepository.updateKilosQuincena(codigo, kilos);
+        registroQuincenaRepository.updateStQuincena(codigo, stActual);
+        registroQuincenaRepository.updateGrasaQuincena(codigo, grasaActual);*/
+        System.out.println("        ------------------");
 
 
     }
