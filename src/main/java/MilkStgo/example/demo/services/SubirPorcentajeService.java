@@ -46,7 +46,7 @@ public class SubirPorcentajeService {
     }
 
     @Generated
-    public void leerCsv(String direccion){
+    public String leerCsv(String direccion){
         String texto = "";
         BufferedReader bf = null;
         porcentajeRepository.deleteAll();
@@ -65,9 +65,9 @@ public class SubirPorcentajeService {
                 }
             }
             texto = temp;
-            System.out.println("Archivo leido exitosamente 2");
+            return "Archivo leido exitosamente 2";
         }catch(Exception e){
-            System.err.println("No se encontro el archivo 2");
+            return "No se encontro el archivo 2";
         }finally{
             if(bf != null){
                 try{

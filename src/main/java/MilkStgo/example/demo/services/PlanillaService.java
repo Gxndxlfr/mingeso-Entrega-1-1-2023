@@ -37,7 +37,7 @@ public class PlanillaService {
         //recorrer proveedores
         for(ProveedorEntity proveedor:proveedores){
             //Pago de kilo leche según categoria
-            int multiplicadorCategoria = calcularPagoCategoria(proveedor);
+            int multiplicadorCategoria = calcularPagoCategoria(proveedor.getCategoria());
             System.out.println("multiplicadorCategoria = "+ multiplicadorCategoria);
             //%grasa asociado al proveedor
 
@@ -170,7 +170,7 @@ public class PlanillaService {
         String fechaAux = "";
         int dias = 0;
         for (SubirDataEntity a:acopio){
-            if(a.getFecha() != fechaAux){
+            if(!a.getFecha().equals(fechaAux)){
                 dias = dias+1;
                 fechaAux = a.getFecha();
             }
@@ -379,21 +379,14 @@ public class PlanillaService {
         return 0;
     }
 
-    private int calcularPagoCategoria(ProveedorEntity proveedor) {
-        String categoria = proveedor.getCategoria();
+    public int calcularPagoCategoria(String categoria) {
 
-        if(categoria.equals("A")){
-            return 700;
-        }
-        else if(categoria.equals("B")){
-            return 550;
-        }
-        else if(categoria.equals("C")){
-            return 400;
-        }
-        else if(categoria.equals("D")){
-            return 250;
-        }
-        return 0;
+        return switch (categoria) {
+            case "A" -> 700;
+            case "B" -> 550;
+            case "C" -> 400;
+            case "D" -> 250;
+            default -> 0;
+        };
     }
 }

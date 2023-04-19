@@ -49,7 +49,7 @@ public class SubirDataService {
     }
 
     @Generated
-    public void leerCsv(String direccion){
+    public String leerCsv(String direccion){
         String texto = "";
         BufferedReader bf = null;
         dataRepository.deleteAll();
@@ -68,9 +68,9 @@ public class SubirDataService {
                 }
             }
             texto = temp;
-            System.out.println("Archivo leido exitosamente");
+            return "Archivo leido exitosamente";
         }catch(Exception e){
-            System.err.println("No se encontro el archivo");
+            return "No se encontro el archivo";
         }finally{
             if(bf != null){
                 try{
@@ -82,13 +82,14 @@ public class SubirDataService {
         }
     }
 
-    public void guardarDataDB(String fecha, String turno, String proveedor, String kls_leche){
+    public String guardarDataDB(String fecha, String turno, String proveedor, String kls_leche){
         SubirDataEntity newData = new SubirDataEntity();
         newData.setFecha(fecha);
         newData.setTurno(turno);
         newData.setProveedor(proveedor);
         newData.setKls_leche(kls_leche);
         guardarData(newData);
+        return "nuevo entrega registrada";
     }
 
     public void guardarData(SubirDataEntity data){
