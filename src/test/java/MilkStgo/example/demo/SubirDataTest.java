@@ -69,6 +69,8 @@ public class SubirDataTest {
     }
 
 
+
+
     /*@Test
     void testSueldoCategoria1(){
         int sueldo = administracionService.sueldoCategoria("A");

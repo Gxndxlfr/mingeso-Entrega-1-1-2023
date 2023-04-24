@@ -18,15 +18,16 @@ public class RegistroQuincenaService {
     @Autowired
     private RegistroQuincenaRepository registroQuincenaRepository;
 
-    public void guardarRegistroQuincena(String codigo, String grasa, String st,String kilos){
+    public String guardarRegistroQuincena(String codigo, String grasa, String st,String kilos){
         RegistroQuincenaEntity registroQuincena = new RegistroQuincenaEntity();
         registroQuincena.setCodigo(codigo);
         registroQuincena.setGrasa(grasa);
         registroQuincena.setSt(st);
         registroQuincena.setKilos(kilos);
         registroQuincenaRepository.save(registroQuincena);
+        return "nueva quincena";
     }
-    public void setAnteriorQuince() {
+    public String setAnteriorQuince() {
 
         List<RegistroQuincenaEntity> anteriorQuincena = registroQuincenaRepository.findAll();
         List<ProveedorEntity> proveedores = proveedorRepository.findAll();
@@ -37,16 +38,18 @@ public class RegistroQuincenaService {
         if(sizeAQ == 0){ //si no existe quincena registrada
             if(sizeP != 0){ //si tenemos empleados
                 for (ProveedorEntity p:proveedores){
-                    RegistroQuincenaEntity newRegistroQuincena = new RegistroQuincenaEntity();
 
                     guardarRegistroQuincena(p.getCodigo(),"0","0","0");
 
 
                 }
+            }else{
+                return "no hay proveedores";
             }
 
 
         }
+        return "set quincena anterior";
     }
 
     public int getKilosByCodigo(String codigo) {
@@ -61,7 +64,7 @@ public class RegistroQuincenaService {
         return Integer.parseInt(registroQuincenaRepository.getByCodigo(codigo).getSt());
     }
 
-    public void actualizarDatos(String codigo, int kilos, int stActual, int grasaActual) {
+    public String actualizarDatos(String codigo, int kilos, int stActual, int grasaActual) {
 
         //eliminar por codigo
         System.out.println("        ------------------");
@@ -81,6 +84,7 @@ public class RegistroQuincenaService {
         registroQuincenaRepository.updateGrasaQuincena(codigo, grasaActual);*/
         System.out.println("        ------------------");
 
+        return "registro quincena actualizado";
 
     }
 }

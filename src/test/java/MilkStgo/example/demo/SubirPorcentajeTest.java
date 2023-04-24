@@ -1,5 +1,6 @@
 package MilkStgo.example.demo;
 
+import MilkStgo.example.demo.entities.SubirPorcentajeEntity;
 import MilkStgo.example.demo.services.SubirPorcentajeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,58 @@ public class SubirPorcentajeTest {
     void testLeerCsv(){
         String response = subirPorcentajeService.leerCsv("porcentajes.csv");
         assertEquals("Archivo leido exitosamente 2",response);
+    }
+
+    @Test
+    void testGuardarDataDB(){
+        String codigo = "0002";
+        String grasa = "12";
+        String st= "22";
+
+        String response = subirPorcentajeService.guardarDataDB(codigo,grasa,st);
+
+        assertEquals("Nuevo porcentaje",response);
+    }
+
+    @Test
+    void testObtenerPorcentajesPorCodigo() {
+        SubirPorcentajeEntity sP = new SubirPorcentajeEntity();
+        sP.setGrasa("10");
+        sP.setSolidoTotal("12");
+        sP.setCodigo("0003");
+
+        subirPorcentajeService.guardarData(sP);
+
+        SubirPorcentajeEntity porcentaje = subirPorcentajeService.obtenerPorcentajesPorCodigo("0003");
+
+        assertEquals("0003", porcentaje.getCodigo());
+
+    }
+
+    @Test
+    void testObtenerGrasaActual(){
+
+        SubirPorcentajeEntity sP = new SubirPorcentajeEntity();
+        sP.setGrasa("10");
+        sP.setSolidoTotal("12");
+        sP.setCodigo("0004");
+
+        subirPorcentajeService.guardarData(sP);
+
+        int grasa = subirPorcentajeService.obtenerGrasaActual("0004");
+        assertEquals(10,grasa);
+    }
+
+    @Test
+    void testObtenerStActual(){
+        SubirPorcentajeEntity sP = new SubirPorcentajeEntity();
+        sP.setGrasa("10");
+        sP.setSolidoTotal("12");
+        sP.setCodigo("0005");
+
+        subirPorcentajeService.guardarData(sP);
+        int st = subirPorcentajeService.obtenerStActual("0005");
+        assertEquals(12,st);
     }
     /*@Test
     void testSueldoCategoria1(){

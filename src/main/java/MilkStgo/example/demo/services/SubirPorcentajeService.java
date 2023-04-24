@@ -79,12 +79,13 @@ public class SubirPorcentajeService {
         }
     }
 
-    public void guardarDataDB(String codigo, String grasa, String solidoTotal){
+    public String guardarDataDB(String codigo, String grasa, String solidoTotal){
         SubirPorcentajeEntity newData = new SubirPorcentajeEntity();
         newData.setCodigo(codigo);
         newData.setGrasa(grasa);
         newData.setSolidoTotal(solidoTotal);
         guardarData(newData);
+        return "Nuevo porcentaje";
     }
 
     public void guardarData(SubirPorcentajeEntity data){

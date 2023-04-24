@@ -108,11 +108,20 @@ public class SubirDataService {
     public String obtenerFechaPorCodigo(String codigo) {
 
         ArrayList<SubirDataEntity> acopio = dataRepository.getbyCodigo(codigo);
+        return buscarPorCodigo(acopio, codigo);
+    }
+
+    public String buscarPorCodigo(ArrayList<SubirDataEntity> acopio, String codigo){
+
+        String fecha = null;
         for(SubirDataEntity a:acopio){
             if(a.getProveedor().equals(codigo)){
-               return a.getFecha();
+                fecha = a.getFecha();
+            }
+            else{
+                fecha = null;
             }
         }
-        return null;
+        return fecha;
     }
 }

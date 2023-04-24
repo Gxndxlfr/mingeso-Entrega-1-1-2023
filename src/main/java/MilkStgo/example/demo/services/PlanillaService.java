@@ -42,11 +42,11 @@ public class PlanillaService {
             //%grasa asociado al proveedor
 
 
-            int multiplicadorGrasa = obtenerPagoPorcentajeGrasa(proveedor);
+            int multiplicadorGrasa = obtenerPagoPorcentajeGrasa(proveedor.getCodigo());
             System.out.println("multiplicadorGrasa = "+multiplicadorGrasa);
 
             //%solidos Totales asociados al proveedor
-            int multiplicadorST = obtenerPagoPorcentajeST(proveedor);
+            int multiplicadorST = obtenerPagoPorcentajeST(proveedor.getCodigo());
             System.out.println("multiplicadorST = "+ multiplicadorST);
 
             //kilos de leche entregados
@@ -333,9 +333,8 @@ public class PlanillaService {
         return cant;
     }
 
-    private int obtenerPagoPorcentajeST(ProveedorEntity proveedor) {
+    public int obtenerPagoPorcentajeST( String codigo) {
 
-        String codigo = proveedor.getCodigo();
         SubirPorcentajeEntity porcentajes = subirPorcentajeService.obtenerPorcentajesPorCodigo(codigo);
 
         System.out.println("------ PORCENTAJE ST ------");
@@ -357,9 +356,8 @@ public class PlanillaService {
         return 0;
     }
 
-    private int obtenerPagoPorcentajeGrasa(ProveedorEntity proveedor) {
+    public int obtenerPagoPorcentajeGrasa(String codigo) {
 
-        String codigo = proveedor.getCodigo();
         SubirPorcentajeEntity porcentajes = subirPorcentajeService.obtenerPorcentajesPorCodigo(codigo);
 
         System.out.println("------ PORCENTAJE GRASA ------");
