@@ -24,7 +24,7 @@ public class ProveedorTest {
     void testObtenerProveedores(){
         ArrayList<ProveedorEntity> proveedoresAux = new ArrayList<>();
         ProveedorEntity prov = new ProveedorEntity();
-        prov.setId(1L);
+        prov.setId(10L);
         prov.setCodigo("1");
         prov.setNombre("name 1");
         prov.setCategoria("A");
@@ -49,6 +49,22 @@ public class ProveedorTest {
 
         assertEquals("Nuevo Proveedor", response);
 
+        proveedorService.eliminarProveedor("2");
+    }
+
+    @Test
+    void testEliminarProveedor(){
+        ProveedorEntity prov = new ProveedorEntity();
+        prov.setId(2L);
+        prov.setCodigo("3");
+        prov.setNombre("name 3");
+        prov.setCategoria("B");
+
+        proveedorService.guardarProveedor("3", "name 3", "B");
+
+        String response = proveedorService.eliminarProveedor("3");
+
+        assertEquals("proveedor eliminado",response);
     }
 
 

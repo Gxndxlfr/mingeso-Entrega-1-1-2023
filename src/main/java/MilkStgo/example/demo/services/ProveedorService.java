@@ -25,5 +25,10 @@ public class ProveedorService {
         return (ArrayList<ProveedorEntity>) proveedorRepository.findAll();
     }
 
+    public String eliminarProveedor(String codigo){
+        proveedorRepository.deleteByCodigo(codigo);
+        return "proveedor eliminado";
+    }
+
 
 }

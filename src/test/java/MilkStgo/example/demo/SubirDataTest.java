@@ -47,7 +47,7 @@ public class SubirDataTest {
     void testObtenerAcopioPorCodigo(){
         ArrayList<SubirDataEntity> acopioAux = new ArrayList<>();
         SubirDataEntity data = new SubirDataEntity();
-        data.setID(10);
+        data.setID(12);
         data.setTurno("M");
         data.setFecha("01/11/2023");
         data.setProveedor("1004");

@@ -60,7 +60,7 @@ public class PlanillaService {
             int pagoGrasa = kilosLeche*multiplicadorGrasa;
             int pagoST = kilosLeche*multiplicadorST;
 
-            double porcentajeBonificacion = multiplicadorFrecuencia/100;
+            double porcentajeBonificacion = multiplicadorFrecuencia/100.0;
             int bonificacionPago = (int) Math.floor(pagoLeche*porcentajeBonificacion);
 
             int pagoAcopioLeche = pagoLeche + pagoGrasa + pagoST + bonificacionPago;
@@ -319,7 +319,7 @@ public class PlanillaService {
         return 0;
     }
 
-    private int calcularCantidadKilosLeche(String codigo) {
+    public int calcularCantidadKilosLeche(String codigo) {
 
         ArrayList<SubirDataEntity> acopio = subirDataService.obtenerAcopioPorCodigo(codigo);
         System.out.println(acopio);
