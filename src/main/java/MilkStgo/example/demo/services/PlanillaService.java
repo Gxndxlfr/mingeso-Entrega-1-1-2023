@@ -70,15 +70,15 @@ public class PlanillaService {
 
             //Descuento variacion leche
             int multiplicadorDescuentoLeche = obtenerDescuentoLeche(proveedor);
-            double porcentajeDescuentoLeche = multiplicadorDescuentoLeche/100;
+            double porcentajeDescuentoLeche = multiplicadorDescuentoLeche/100.0;
             System.out.println("multiplicadorDescuentoLeche: "+multiplicadorDescuentoLeche);
             //Descuento variación Grasa
             int multiplicadorDescuentoGrasa = obtenerDescuentoGrasa(proveedor);
-            double porcentajeDescuentoGrasa = multiplicadorDescuentoGrasa/100;
+            double porcentajeDescuentoGrasa = multiplicadorDescuentoGrasa/100.0;
             System.out.println("multiplicadorDescuentoGrasa: "+multiplicadorDescuentoGrasa);
             //Descuento variación ST
             int multiplicadorDescuentoSt = obtenerDescuentoSt(proveedor);
-            double porcentajeDescuentoSt = multiplicadorDescuentoSt/100;
+            double porcentajeDescuentoSt = multiplicadorDescuentoSt/100.0;
             System.out.println("multiplicadorDescuentoSt: "+multiplicadorDescuentoSt);
 
             //aplicar descuentos
@@ -110,7 +110,7 @@ public class PlanillaService {
             System.out.println("nombre= "+nombre);
 
 
-            double promedioKlsLeche = kilosLeche/15;
+            double promedioKlsLeche = kilosLeche/15.0;
             String quincena = subirDataService.obtenerFechaPorCodigo(codigo);
             System.out.println("quincena= "+quincena);
             int cantDias = contarDias(codigo);
@@ -130,8 +130,8 @@ public class PlanillaService {
 
 
 
-        List<PlanillaEntity> planilla = planillaRepository.findAll();
-        return planilla;
+        return  planillaRepository.findAll();
+
     }
 
     private void guardarInfoPago(String quincena, String codigo, String nombre, int kilosLeche, int cantDias, double promedioKlsLeche, double varLeche, int grasaActual, double varGrasa,int stActual, double varSt, int pagoLeche, int pagoGrasa, int pagoST, int bonificacionPago, int descuento_1, int descuento_2, int descuento_3, int pagoTotal, int retencion, int pagoFinal) {
@@ -262,7 +262,10 @@ public class PlanillaService {
         if(valor1 == 0){
             return 0;
         }else{
-            return ((valor2-valor1)/valor1)*100;
+
+            double valor_2= (double)(valor2);
+
+            return ((valor_2- (double) valor1)/ (double) valor1)*100.0;
         }
     }
     private int obtenerDescuentoLeche(ProveedorEntity proveedor) {
