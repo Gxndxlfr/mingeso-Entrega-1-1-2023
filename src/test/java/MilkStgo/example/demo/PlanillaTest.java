@@ -2,10 +2,7 @@ package MilkStgo.example.demo;
 
 import MilkStgo.example.demo.entities.ProveedorEntity;
 import MilkStgo.example.demo.entities.SubirPorcentajeEntity;
-import MilkStgo.example.demo.services.PlanillaService;
-import MilkStgo.example.demo.services.ProveedorService;
-import MilkStgo.example.demo.services.SubirDataService;
-import MilkStgo.example.demo.services.SubirPorcentajeService;
+import MilkStgo.example.demo.services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +23,9 @@ public class PlanillaTest {
 
     @Autowired
     SubirDataService subirDataService;
+
+    @Autowired
+    RegistroQuincenaService registroQuincenaService;
     @Test
     void testCalcularPagoCategoriaA(){
         int pagoCategoria = planillaService.calcularPagoCategoria("A");
@@ -267,5 +267,144 @@ public class PlanillaTest {
         assertEquals(15,response);
     }
 
+    @Test
+    void testObtenerBonificacionFrecuenciaM(){
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1006","10");
 
+        int response = planillaService.obtenerBonificacionFrecuencia("1006");
+
+        assertEquals(12,response);
+    }
+
+    @Test
+    void testObtenerBonificacionFrecuenciaT(){
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1007","10");
+
+        int response = planillaService.obtenerBonificacionFrecuencia("1007");
+
+        assertEquals(8,response);
+    }
+
+    @Test
+    void testObtenerBonificacionFrecuencia(){
+        subirDataService.guardarDataDB("04/11/2023","T","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","T","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+        subirDataService.guardarDataDB("04/11/2023","M","1008","10");
+
+        int response = planillaService.obtenerBonificacionFrecuencia("1008");
+
+        assertEquals(20,response);
+    }
+
+    @Test
+    void testObtenerBonificacionFrecuencia_0(){
+
+        int response = planillaService.obtenerBonificacionFrecuencia("1009");
+
+        assertEquals(0,response);
+    }
+
+    @Test
+    void testObtenerDescuentoLeche_0(){
+
+        //cargar acopio
+        subirDataService.guardarDataDB("04/11/2023","T","1010","50");
+        subirDataService.guardarDataDB("04/11/2023","T","1010","50");
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1010","10","10","95");
+
+
+        int response = planillaService.obtenerDescuentoLeche("1010");
+        assertEquals(0,response);
+    }
+
+    @Test
+    void testObtenerDescuentoLeche_7(){
+
+        //cargar acopio
+        subirDataService.guardarDataDB("04/11/2023","T","1011","50");
+        subirDataService.guardarDataDB("04/11/2023","T","1011","50");
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1011","10","10","85");
+
+
+
+        int response = planillaService.obtenerDescuentoLeche("1011");
+        assertEquals(7,response);
+    }
+
+    @Test
+    void testObtenerDescuentoLeche_15(){
+
+        //cargar acopio
+        subirDataService.guardarDataDB("04/11/2023","T","1012","50");
+        subirDataService.guardarDataDB("04/11/2023","T","1012","50");
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1012","10","10","70");
+
+
+        int response = planillaService.obtenerDescuentoLeche("1012");
+        assertEquals(15,response);
+    }
+   @Test
+    void testObtenerDescuentoLeche_30(){
+
+        //cargar acopio
+        subirDataService.guardarDataDB("04/11/2023","T","1013","50");
+        subirDataService.guardarDataDB("04/11/2023","T","1013","50");
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1013","10","10","50");
+
+
+        int response = planillaService.obtenerDescuentoLeche("1013");
+        assertEquals(30,response);
+    }
+
+    @Test
+    void testObtenerDescuentoLeche_00(){
+//cargar acopio
+        subirDataService.guardarDataDB("04/11/2023","T","1014","50");
+        subirDataService.guardarDataDB("04/11/2023","T","1014","50");
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1014","10","10","200");
+        int response = planillaService.obtenerDescuentoLeche("1014");
+        assertEquals(0,response);
+    }
+
+    @Test
+    void testCalcularVariacionPorcentual(){
+
+        double response = planillaService.calcularVariacionPorcentual(0,10);
+
+        assertEquals(0.0,response,0.0);
+
+    }
 }

@@ -1,6 +1,7 @@
 package MilkStgo.example.demo;
 
 import MilkStgo.example.demo.entities.SubirDataEntity;
+import MilkStgo.example.demo.repositories.PlanillaRepository;
 import MilkStgo.example.demo.services.SubirDataService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class SubirDataTest {
 
     @Autowired
     SubirDataService subirDataService;
+    @Autowired
+    private PlanillaRepository planillaRepository;
 
     @Test
     void testObtenerFechaPorCodigo(){
@@ -47,7 +50,7 @@ public class SubirDataTest {
     void testObtenerAcopioPorCodigo(){
         ArrayList<SubirDataEntity> acopioAux = new ArrayList<>();
         SubirDataEntity data = new SubirDataEntity();
-        data.setID(12);
+        data.setID(55);
         data.setTurno("M");
         data.setFecha("01/11/2023");
         data.setProveedor("1004");
@@ -67,6 +70,8 @@ public class SubirDataTest {
         String turno = acopio.get(0).getTurno();
         assertEquals("M",turno);
     }
+
+
 
 
 

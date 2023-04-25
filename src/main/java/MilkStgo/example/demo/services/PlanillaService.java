@@ -53,7 +53,7 @@ public class PlanillaService {
             int kilosLeche = calcularCantidadKilosLeche(proveedor.getCodigo());
             System.out.println("kilosLeche: "+kilosLeche);
             //calcular bonificación por frecuencia de entrega
-            int multiplicadorFrecuencia = obtenerBonificacionFrecuencia(proveedor);
+            int multiplicadorFrecuencia = obtenerBonificacionFrecuencia(proveedor.getCodigo());
             System.out.println("MultiplicadorFrecuencia = "+ multiplicadorFrecuencia);
 
             int pagoLeche = kilosLeche*multiplicadorCategoria;
@@ -69,7 +69,7 @@ public class PlanillaService {
             //calcular descuento variación según quincena anterior
 
             //Descuento variacion leche
-            int multiplicadorDescuentoLeche = obtenerDescuentoLeche(proveedor);
+            int multiplicadorDescuentoLeche = obtenerDescuentoLeche(proveedor.getCodigo());
             double porcentajeDescuentoLeche = multiplicadorDescuentoLeche/100.0;
             System.out.println("multiplicadorDescuentoLeche: "+multiplicadorDescuentoLeche);
             //Descuento variación Grasa
@@ -254,39 +254,46 @@ public class PlanillaService {
         int grasaAntigua = registroQuincenaService.obtenerGrasaAntigua(codigo);
         //calcular variación
         double variacionPorcentual = calcularVariacionPorcentual(grasaAntigua,grasaActual);
+
         System.out.println("variacionGrasa 1= "+variacionPorcentual);
         return variacionPorcentual;
     }
-    private double calcularVariacionPorcentual(int valor1, int valor2){
+    public double calcularVariacionPorcentual(int valor1, int valor2){
 
         if(valor1 == 0){
-            return 0;
+            return 0.0;
         }else{
 
             double valor_2= (double)(valor2);
 
-            return ((valor_2- (double) valor1)/ (double) valor1)*100.0;
+            return ((valor_2 - (double) valor1)/ (double) valor1)*100.0;
         }
     }
-    private int obtenerDescuentoLeche(ProveedorEntity proveedor) {
-        //codigo del proveedor
-        String codigo = proveedor.getCodigo();
+    public int obtenerDescuentoLeche(String codigo) {
+        System.out.println("--------------------------------");
+        System.out.println("################################");
         //calcular variación
         double variacionPorcentual = calcularVariacionLeche(codigo);
 
-        if(variacionPorcentual <= 0 && variacionPorcentual >= -8 ){
+        variacionPorcentual= variacionPorcentual*(-1);
+
+
+        System.out.println("variacionPorcentual:" + variacionPorcentual);
+        if(variacionPorcentual <= 0.0 && variacionPorcentual >= -8.0 ){
             return 0;
-        }else if(variacionPorcentual <= -9 && variacionPorcentual >= -25 ){
+        }else if(variacionPorcentual <= -9.0 && variacionPorcentual >= -25.0 ){
             return 7;
-        }else if(variacionPorcentual <= -26 && variacionPorcentual >= -45){
+        }else if(variacionPorcentual <= -26.0 && variacionPorcentual >= -45.0){
             return 15;
-        }else if(variacionPorcentual <= -46){
+        }else if(variacionPorcentual <= -46.0){
             return 30;
         }
-
+        System.out.println("################################");
+        System.out.println("--------------------------------");
         return 0;
     }
-    private double calcularVariacionLeche(String codigo){
+    public double calcularVariacionLeche(String codigo){
+
         //obtener kilos actuales
         int kilosActuales = calcularCantidadKilosLeche(codigo);
         //obtener kilos antiguos
@@ -297,8 +304,7 @@ public class PlanillaService {
         return variacionPorcentual;
     }
 
-    private int obtenerBonificacionFrecuencia(ProveedorEntity proveedor) {
-        String codigo = proveedor.getCodigo();
+    public int obtenerBonificacionFrecuencia(String codigo) {
         ArrayList<SubirDataEntity> acopioM = subirDataService.obtenerAcopioPorTurnoAndCodigo("M",codigo);
         ArrayList<SubirDataEntity> acopioT = subirDataService.obtenerAcopioPorTurnoAndCodigo("T",codigo);
 
