@@ -1,12 +1,18 @@
 package MilkStgo.example.demo;
 
+import MilkStgo.example.demo.entities.PlanillaEntity;
 import MilkStgo.example.demo.entities.ProveedorEntity;
 import MilkStgo.example.demo.entities.SubirPorcentajeEntity;
+import MilkStgo.example.demo.repositories.ProveedorRepository;
 import MilkStgo.example.demo.services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
@@ -26,6 +32,9 @@ public class PlanillaTest {
 
     @Autowired
     RegistroQuincenaService registroQuincenaService;
+    @Autowired
+    private ProveedorRepository proveedorRepository;
+
     @Test
     void testCalcularPagoCategoriaA(){
         int pagoCategoria = planillaService.calcularPagoCategoria("A");
@@ -72,6 +81,7 @@ public class PlanillaTest {
         //comparar
         assertEquals(30,response);
 
+        subirPorcentajeService.eliminarPorcentaje("0001");
         proveedorService.eliminarProveedor("0001");
 
     }
@@ -96,6 +106,7 @@ public class PlanillaTest {
         //comparar
         assertEquals(80,response);
 
+        subirPorcentajeService.eliminarPorcentaje("0002");
         proveedorService.eliminarProveedor("0002");
 
     }
@@ -119,6 +130,8 @@ public class PlanillaTest {
         //comparar
         assertEquals(120,response);
 
+
+        subirPorcentajeService.eliminarPorcentaje("0003");
         proveedorService.eliminarProveedor("0003");
 
     }
@@ -142,6 +155,7 @@ public class PlanillaTest {
         //comparar
         assertEquals(0,response);
 
+        subirPorcentajeService.eliminarPorcentaje("0004");
         proveedorService.eliminarProveedor("0004");
 
     }
@@ -165,6 +179,7 @@ public class PlanillaTest {
         //comparar
         assertEquals(-130,response);
 
+        subirPorcentajeService.eliminarPorcentaje("0005");
         proveedorService.eliminarProveedor("0005");
     }
 
@@ -187,6 +202,8 @@ public class PlanillaTest {
         //comparar
         assertEquals(-90,response);
 
+
+        subirPorcentajeService.eliminarPorcentaje("0006");
         proveedorService.eliminarProveedor("0006");
     }
 
@@ -209,6 +226,8 @@ public class PlanillaTest {
         //comparar
         assertEquals(95,response);
 
+
+        subirPorcentajeService.eliminarPorcentaje("0007");
         proveedorService.eliminarProveedor("0007");
     }
 
@@ -231,6 +250,8 @@ public class PlanillaTest {
         //comparar
         assertEquals(150,response);
 
+
+        subirPorcentajeService.eliminarPorcentaje("0008");
         proveedorService.eliminarProveedor("0008");
     }
 
@@ -253,6 +274,8 @@ public class PlanillaTest {
         //comparar
         assertEquals(0,response);
 
+
+        subirPorcentajeService.eliminarPorcentaje("0009");
         proveedorService.eliminarProveedor("0009");
     }
 
@@ -265,6 +288,8 @@ public class PlanillaTest {
         int response = planillaService.calcularCantidadKilosLeche("0010");
 
         assertEquals(15,response);
+
+        subirDataService.eliminarData("0010");
     }
 
     @Test
@@ -284,6 +309,8 @@ public class PlanillaTest {
         int response = planillaService.obtenerBonificacionFrecuencia("1006");
 
         assertEquals(12,response);
+
+        subirDataService.eliminarData("1006");
     }
 
     @Test
@@ -303,6 +330,8 @@ public class PlanillaTest {
         int response = planillaService.obtenerBonificacionFrecuencia("1007");
 
         assertEquals(8,response);
+
+        subirDataService.eliminarData("1007");
     }
 
     @Test
@@ -322,6 +351,8 @@ public class PlanillaTest {
         int response = planillaService.obtenerBonificacionFrecuencia("1008");
 
         assertEquals(20,response);
+
+        subirDataService.eliminarData("1008");
     }
 
     @Test
@@ -344,6 +375,8 @@ public class PlanillaTest {
 
         int response = planillaService.obtenerDescuentoLeche("1010");
         assertEquals(0,response);
+
+        subirDataService.eliminarData("1010");
     }
 
     @Test
@@ -359,6 +392,9 @@ public class PlanillaTest {
 
         int response = planillaService.obtenerDescuentoLeche("1011");
         assertEquals(7,response);
+
+        subirDataService.eliminarData("1011");
+        registroQuincenaService.eliminarQuincena("1011");
     }
 
     @Test
@@ -373,6 +409,9 @@ public class PlanillaTest {
 
         int response = planillaService.obtenerDescuentoLeche("1012");
         assertEquals(15,response);
+
+        subirDataService.eliminarData("1012");
+        registroQuincenaService.eliminarQuincena("1012");
     }
    @Test
     void testObtenerDescuentoLeche_30(){
@@ -386,6 +425,9 @@ public class PlanillaTest {
 
         int response = planillaService.obtenerDescuentoLeche("1013");
         assertEquals(30,response);
+
+       subirDataService.eliminarData("1013");
+       registroQuincenaService.eliminarQuincena("1013");
     }
 
     @Test
@@ -397,6 +439,10 @@ public class PlanillaTest {
         registroQuincenaService.guardarRegistroQuincena("1014","10","10","200");
         int response = planillaService.obtenerDescuentoLeche("1014");
         assertEquals(0,response);
+
+        subirDataService.eliminarData("1014");
+        registroQuincenaService.eliminarQuincena("1014");
+
     }
 
     @Test
@@ -407,4 +453,300 @@ public class PlanillaTest {
         assertEquals(0.0,response,0.0);
 
     }
+
+    @Test
+    void testObtenerDescuentoGrasa_0() {
+
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1015", "90","10");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1015","100","10","200");
+        int response = planillaService.obtenerDescuentoGrasa("1015");
+        assertEquals(0,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1015");
+        registroQuincenaService.eliminarQuincena("1015");
+    }
+
+    @Test
+    void testObtenerDescuentoGrasa_12(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1016", "80","10");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1016","100","10","200");
+        int response = planillaService.obtenerDescuentoGrasa("1016");
+        assertEquals(12,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1016");
+        registroQuincenaService.eliminarQuincena("1016");
+    }
+
+    @Test
+    void testObtenerDescuentoGrasa_20(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1017", "70","10");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1017","100","10","200");
+        int response = planillaService.obtenerDescuentoGrasa("1017");
+        assertEquals(20,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1017");
+        registroQuincenaService.eliminarQuincena("1017");
+    }
+
+    @Test
+    void testObtenerDescuentoGrasa_30(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1018", "50","10");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1018","100","10","200");
+        int response = planillaService.obtenerDescuentoGrasa("1018");
+        assertEquals(30,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1018");
+        registroQuincenaService.eliminarQuincena("1018");
+    }
+
+    @Test
+    void testObtenerDescuentoGrasa_00(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1019", "110","10");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1019","100","10","200");
+        int response = planillaService.obtenerDescuentoGrasa("1019");
+        assertEquals(0,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1019");
+        registroQuincenaService.eliminarQuincena("1019");
+    }
+
+    @Test
+    void testObtenerDescuentoSt_0(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1020", "10","98");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1020","10","100","10");
+        int response = planillaService.obtenerDescuentoSt("1020");
+        assertEquals(0,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1020");
+        registroQuincenaService.eliminarQuincena("1020");
+    }
+
+    @Test
+    void testObtenerDescuentoSt_18(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1021", "10","90");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1021","10","100","10");
+        int response = planillaService.obtenerDescuentoSt("1021");
+        assertEquals(18,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1021");
+        registroQuincenaService.eliminarQuincena("1021");
+    }
+
+    @Test
+    void testObtenerDescuentoSt_27(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1022", "10","80");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1022","10","100","10");
+        int response = planillaService.obtenerDescuentoSt("1022");
+        assertEquals(27,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1022");
+        registroQuincenaService.eliminarQuincena("1022");
+    }
+
+    @Test
+    void testObtenerDescuentoSt_45(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1023", "10","60");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1023","10","100","10");
+        int response = planillaService.obtenerDescuentoSt("1023");
+        assertEquals(45,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1023");
+        registroQuincenaService.eliminarQuincena("1023");
+    }
+
+    @Test
+    void testObtenerDescuentoSt_00(){
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1024", "10","110");
+        subirPorcentajeService.guardarData(p);
+
+        //cargar quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1024","10","100","10");
+        int response = planillaService.obtenerDescuentoSt("1024");
+        assertEquals(0,response);
+
+        subirPorcentajeService.eliminarPorcentaje("1024");
+        registroQuincenaService.eliminarQuincena("1024");
+    }
+
+    @Test
+    void testObtenerRetencion_sin(){
+        int pagoTotal = 1000000;
+        int response = planillaService.obtenerRetencion(pagoTotal);
+
+        int expected = (int) Math.floor(pagoTotal*0.13);
+        assertEquals(expected,response);
+    }
+
+    @Test
+    void testObtenerRetencion_con(){
+        int pagoTotal = 900000;
+        int response = planillaService.obtenerRetencion(pagoTotal);
+
+        assertEquals(0,response);
+    }
+
+    @Test
+    void testActualizarPorcentajes(){
+
+        SubirPorcentajeEntity p = new SubirPorcentajeEntity(1, "1025", "10","10");
+        subirPorcentajeService.guardarData(p);
+
+        registroQuincenaService.guardarRegistroQuincena("1025","20","20","20");
+
+        String response = planillaService.actualizarPorcentajes("1025", 10);
+
+        assertEquals("porcentajes Actualizados",response);
+
+        subirPorcentajeService.eliminarPorcentaje("1025");
+        registroQuincenaService.eliminarQuincena("1025");
+    }
+
+    @Test
+    void testContarDias(){
+
+
+        subirDataService.guardarDataDB("04/11/2023","T","1026","10");
+        subirDataService.guardarDataDB("05/11/2023","T","1026","10");
+        subirDataService.guardarDataDB("06/11/2023","T","1026","10");
+        subirDataService.guardarDataDB("07/11/2023","T","1026","10");
+        subirDataService.guardarDataDB("08/11/2023","T","1026","10");
+
+        int response = planillaService.contarDias("1026");
+        assertEquals(5,response);
+    }
+
+    @Test
+    void testGuardarInfoPago(){
+
+        String response = planillaService.guardarInfoPago("08/11/2023","1111","prov 1111",10,10,10.0,10.0,10,10.0,10,10.0,100,100,100,100,50,50,50,150,0,150);
+        assertEquals("nuevo pago calculado",response);
+
+        planillaService.eliminarPago("1111");
+    }
+
+    @Test
+    void testCalcularPagos(){
+
+        //-----agregar proveedores
+
+        proveedorService.guardarProveedor("1212","prov 1212", "A");
+        proveedorService.guardarProveedor("1313","prov 1313", "B");
+        proveedorService.guardarProveedor("1414", "prov 1414", "C");
+
+        //-----Cargar Acopio
+
+        //acopio 1
+        subirDataService.guardarDataDB("01/02/03","M","1212","10");
+        subirDataService.guardarDataDB("02/02/03","M","1212","10");
+        subirDataService.guardarDataDB("03/02/03","M","1212","10");
+        subirDataService.guardarDataDB("04/02/03","M","1212","10");
+        subirDataService.guardarDataDB("05/02/03","M","1212","10");
+        subirDataService.guardarDataDB("06/02/03","M","1212","10");
+        subirDataService.guardarDataDB("07/02/03","M","1212","10");
+        subirDataService.guardarDataDB("08/02/03","M","1212","10");
+        subirDataService.guardarDataDB("09/02/03","M","1212","10");
+        subirDataService.guardarDataDB("10/02/03","M","1212","10");
+        subirDataService.guardarDataDB("11/02/03","M","1212","10");
+
+        //acopio 2
+        subirDataService.guardarDataDB("01/02/03","T","1313","10");
+        subirDataService.guardarDataDB("02/02/03","T","1313","10");
+        subirDataService.guardarDataDB("03/02/03","T","1313","10");
+        subirDataService.guardarDataDB("04/02/03","T","1313","10");
+        subirDataService.guardarDataDB("05/02/03","T","1313","10");
+        subirDataService.guardarDataDB("06/02/03","T","1313","10");
+        subirDataService.guardarDataDB("07/02/03","T","1313","10");
+        subirDataService.guardarDataDB("08/02/03","T","1313","10");
+        subirDataService.guardarDataDB("09/02/03","T","1313","10");
+        subirDataService.guardarDataDB("10/02/03","T","1313","10");
+        subirDataService.guardarDataDB("11/02/03","T","1313","10");
+
+        //acopio 3
+        subirDataService.guardarDataDB("01/02/03","T","1414","10");
+        subirDataService.guardarDataDB("02/02/03","T","1414","10");
+        subirDataService.guardarDataDB("03/02/03","T","1414","10");
+        subirDataService.guardarDataDB("04/02/03","T","1414","10");
+        subirDataService.guardarDataDB("05/02/03","T","1414","10");
+        subirDataService.guardarDataDB("05/02/03","M","1414","10");
+        subirDataService.guardarDataDB("07/02/03","M","1414","10");
+        subirDataService.guardarDataDB("08/02/03","M","1414","10");
+        subirDataService.guardarDataDB("09/02/03","M","1414","10");
+        subirDataService.guardarDataDB("10/02/03","M","1414","10");
+        subirDataService.guardarDataDB("11/02/03","M","1414","10");
+
+
+        //-----Cargar Porcentajes
+        SubirPorcentajeEntity p1 = new SubirPorcentajeEntity(1,"1212","10","5");
+        SubirPorcentajeEntity p2 = new SubirPorcentajeEntity(2,"1313","25","10");
+        SubirPorcentajeEntity p3 = new SubirPorcentajeEntity(1,"1414","50","30");
+        subirPorcentajeService.guardarData(p1);
+        subirPorcentajeService.guardarData(p2);
+        subirPorcentajeService.guardarData(p3);
+
+        //-----Cargar Quincena anterior
+        registroQuincenaService.guardarRegistroQuincena("1212","0","0","0");
+        registroQuincenaService.guardarRegistroQuincena("1313","0","0","0");
+        registroQuincenaService.guardarRegistroQuincena("1414","0","0","0");
+
+        //expected planilla
+        List<PlanillaEntity> planilla = new ArrayList<>();
+
+        PlanillaEntity pl_1 = new PlanillaEntity();
+        planilla.add(pl_1);
+
+        PlanillaEntity pl_2 = new PlanillaEntity();
+        planilla.add(pl_2);
+
+        PlanillaEntity pl_3 = new PlanillaEntity();
+        planilla.add(pl_3);
+
+        //Llamar al método
+        List<PlanillaEntity> response = planillaService.calcularPagos();
+
+        assertArrayEquals(new List[]{planilla}, new List[]{response});
+
+        proveedorService.eliminarProveedor("1212");
+        proveedorService.eliminarProveedor("1313");
+        proveedorService.eliminarProveedor("1414");
+
+        subirDataService.eliminarData("1212");
+        subirDataService.eliminarData("1313");
+        subirDataService.eliminarData("1414");
+
+        subirPorcentajeService.eliminarPorcentaje("1212");
+        subirPorcentajeService.eliminarPorcentaje("1313");
+        subirPorcentajeService.eliminarPorcentaje("1414");
+
+        registroQuincenaService.eliminarQuincena("1212");
+        registroQuincenaService.eliminarQuincena("1313");
+        registroQuincenaService.eliminarQuincena("1414");
+    }
+
 }

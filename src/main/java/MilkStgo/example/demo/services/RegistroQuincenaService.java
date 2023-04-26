@@ -87,4 +87,9 @@ public class RegistroQuincenaService {
         return "registro quincena actualizado";
 
     }
+
+    public String eliminarQuincena(String codigo){
+        registroQuincenaRepository.deleteByCodigo(codigo);
+        return "proveedor eliminado";
+    }
 }

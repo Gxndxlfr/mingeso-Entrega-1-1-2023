@@ -21,23 +21,6 @@ public class ProveedorTest {
     ProveedorRepository proveedorRepository;
 
     @Test
-    void testObtenerProveedores(){
-        ArrayList<ProveedorEntity> proveedoresAux = new ArrayList<>();
-        ProveedorEntity prov = new ProveedorEntity();
-        prov.setId(10L);
-        prov.setCodigo("1");
-        prov.setNombre("name 1");
-        prov.setCategoria("A");
-        proveedoresAux.add(prov);
-
-        proveedorService.guardarProveedor("1","name 1","A");
-        ArrayList<ProveedorEntity> proveedores = proveedorService.obtenerProveedores();
-        proveedores.remove(1);
-        assertArrayEquals(new ArrayList[]{proveedoresAux}, new ArrayList[]{proveedores});
-
-    }
-
-    @Test
     void testGuardarProveedor(){
         ProveedorEntity prov = new ProveedorEntity();
         prov.setId(1L);
@@ -45,7 +28,7 @@ public class ProveedorTest {
         prov.setNombre("name 2");
         prov.setCategoria("B");
 
-        String response = proveedorService.guardarProveedor("1","name 1","A");
+        String response = proveedorService.guardarProveedor("2","name 2","A");
 
         assertEquals("Nuevo Proveedor", response);
 
@@ -67,6 +50,36 @@ public class ProveedorTest {
         assertEquals("proveedor eliminado",response);
     }
 
+    @Test
+    void testObtenerProveedores(){
+        ArrayList<ProveedorEntity> proveedoresAux = new ArrayList<>();
+        ProveedorEntity prov = new ProveedorEntity();
+        prov.setId(6L);
+        prov.setCodigo("1212");
+        prov.setNombre("prov 1212");
+        prov.setCategoria("A");
+        proveedoresAux.add(prov);
+
+        ProveedorEntity prov2 = new ProveedorEntity();
+        prov2.setId(8L);
+        prov2.setCodigo("1414");
+        prov2.setNombre("prov 1414");
+        prov2.setCategoria("C");
+        proveedoresAux.add(prov2);
+
+        ProveedorEntity prov3 = new ProveedorEntity();
+        prov3.setId(14L);
+        prov3.setCodigo("1");
+        prov3.setNombre("name 1");
+        prov3.setCategoria("A");
+        proveedoresAux.add(prov3);
+
+        proveedorService.guardarProveedor("1","name 1","A");
+        ArrayList<ProveedorEntity> proveedores = proveedorService.obtenerProveedores();
+        proveedores.remove(1);
+        assertArrayEquals(new ArrayList[]{proveedoresAux}, new ArrayList[]{proveedores});
+
+    }
 
 
 

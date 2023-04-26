@@ -29,6 +29,8 @@ public class SubirPorcentajeTest {
         String response = subirPorcentajeService.guardarDataDB(codigo,grasa,st);
 
         assertEquals("Nuevo porcentaje",response);
+
+        subirPorcentajeService.eliminarPorcentaje("0002");
     }
 
     @Test
@@ -44,6 +46,7 @@ public class SubirPorcentajeTest {
 
         assertEquals("0003", porcentaje.getCodigo());
 
+        subirPorcentajeService.eliminarPorcentaje("0003");
     }
 
     @Test
@@ -58,6 +61,8 @@ public class SubirPorcentajeTest {
 
         int grasa = subirPorcentajeService.obtenerGrasaActual("0004");
         assertEquals(10,grasa);
+
+        subirPorcentajeService.eliminarPorcentaje("0004");
     }
 
     @Test
@@ -70,6 +75,8 @@ public class SubirPorcentajeTest {
         subirPorcentajeService.guardarData(sP);
         int st = subirPorcentajeService.obtenerStActual("0005");
         assertEquals(12,st);
+
+        subirPorcentajeService.eliminarPorcentaje("0005");
     }
     /*@Test
     void testSueldoCategoria1(){

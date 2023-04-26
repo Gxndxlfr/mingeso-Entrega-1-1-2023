@@ -124,4 +124,9 @@ public class SubirDataService {
         }
         return fecha;
     }
+
+    public String eliminarData(String codigo){
+        dataRepository.deleteByProveedor(codigo);
+        return "proveedor eliminado";
+    }
 }

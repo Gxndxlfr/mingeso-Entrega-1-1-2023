@@ -26,6 +26,8 @@ public class SubirDataTest {
         String fecha = subirDataService.obtenerFechaPorCodigo("1006");
         assertEquals("6/11/2023",fecha);
 
+        subirDataService.eliminarData("1006");
+
     }
     @Test
     void testObtenerFechaPorCodigoNull(){
@@ -44,13 +46,15 @@ public class SubirDataTest {
     void testGuardarDataDB(){
         String response = subirDataService.guardarDataDB("01/11/2023", "M","1003","10");
         assertEquals("nuevo entrega registrada",response);
+
+        subirDataService.eliminarData("1003");
     }
 
     @Test
     void testObtenerAcopioPorCodigo(){
         ArrayList<SubirDataEntity> acopioAux = new ArrayList<>();
         SubirDataEntity data = new SubirDataEntity();
-        data.setID(55);
+        data.setID(93);
         data.setTurno("M");
         data.setFecha("01/11/2023");
         data.setProveedor("1004");
@@ -60,6 +64,8 @@ public class SubirDataTest {
         subirDataService.guardarDataDB("01/11/2023","M","1004","10");
         ArrayList<SubirDataEntity> acopio = subirDataService.obtenerAcopioPorCodigo("1004");
         assertArrayEquals(new ArrayList[]{acopioAux}, new ArrayList[]{acopio});
+
+        subirDataService.eliminarData("1004");
     }
 
     @Test
@@ -69,7 +75,10 @@ public class SubirDataTest {
         ArrayList<SubirDataEntity> acopio = subirDataService.obtenerAcopioPorTurnoAndCodigo("M","1005");
         String turno = acopio.get(0).getTurno();
         assertEquals("M",turno);
+
+        subirDataService.eliminarData("1005");
     }
+
 
 
 

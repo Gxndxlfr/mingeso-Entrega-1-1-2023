@@ -73,11 +73,11 @@ public class PlanillaService {
             double porcentajeDescuentoLeche = multiplicadorDescuentoLeche/100.0;
             System.out.println("multiplicadorDescuentoLeche: "+multiplicadorDescuentoLeche);
             //Descuento variación Grasa
-            int multiplicadorDescuentoGrasa = obtenerDescuentoGrasa(proveedor);
+            int multiplicadorDescuentoGrasa = obtenerDescuentoGrasa(proveedor.getCodigo());
             double porcentajeDescuentoGrasa = multiplicadorDescuentoGrasa/100.0;
             System.out.println("multiplicadorDescuentoGrasa: "+multiplicadorDescuentoGrasa);
             //Descuento variación ST
-            int multiplicadorDescuentoSt = obtenerDescuentoSt(proveedor);
+            int multiplicadorDescuentoSt = obtenerDescuentoSt(proveedor.getCodigo());
             double porcentajeDescuentoSt = multiplicadorDescuentoSt/100.0;
             System.out.println("multiplicadorDescuentoSt: "+multiplicadorDescuentoSt);
 
@@ -134,7 +134,7 @@ public class PlanillaService {
 
     }
 
-    private void guardarInfoPago(String quincena, String codigo, String nombre, int kilosLeche, int cantDias, double promedioKlsLeche, double varLeche, int grasaActual, double varGrasa,int stActual, double varSt, int pagoLeche, int pagoGrasa, int pagoST, int bonificacionPago, int descuento_1, int descuento_2, int descuento_3, int pagoTotal, int retencion, int pagoFinal) {
+    public String guardarInfoPago(String quincena, String codigo, String nombre, int kilosLeche, int cantDias, double promedioKlsLeche, double varLeche, int grasaActual, double varGrasa,int stActual, double varSt, int pagoLeche, int pagoGrasa, int pagoST, int bonificacionPago, int descuento_1, int descuento_2, int descuento_3, int pagoTotal, int retencion, int pagoFinal) {
         PlanillaEntity newPlanilla = new PlanillaEntity();
         newPlanilla.setQuincena(quincena);
         newPlanilla.setCodigo(codigo);
@@ -161,9 +161,11 @@ public class PlanillaService {
         System.out.println(newPlanilla);
         planillaRepository.save(newPlanilla);
 
+        return "nuevo pago calculado";
+
     }
 
-    private int contarDias(String codigo) {
+    public int contarDias(String codigo) {
 
         ArrayList<SubirDataEntity> acopio = subirDataService.obtenerAcopioPorCodigo(codigo);
 
@@ -178,7 +180,7 @@ public class PlanillaService {
         return dias;
     }
 
-    private void actualizarPorcentajes(String codigo,int kilos) {
+    public String actualizarPorcentajes(String codigo,int kilos) {
         System.out.println("------------------");
         int stActual = subirPorcentajeService.obtenerStActual(codigo);
         System.out.println("st Actual = "+stActual);
@@ -186,9 +188,11 @@ public class PlanillaService {
         System.out.println("grasa Actual = "+grasaActual);
         registroQuincenaService.actualizarDatos(codigo,kilos,stActual,grasaActual);
         System.out.println("------------------");
+
+        return "porcentajes Actualizados";
     }
 
-    private int obtenerRetencion(int pagoTotal) {
+    public int obtenerRetencion(int pagoTotal) {
         int retencion = 0;
         if(pagoTotal > 950000){
             retencion = (int) Math.floor(pagoTotal*0.13);
@@ -197,10 +201,8 @@ public class PlanillaService {
         return retencion;
     }
 
-    private int obtenerDescuentoSt(ProveedorEntity proveedor) {
-        //codigo del proveedor
+    public int obtenerDescuentoSt(String codigo ) {
 
-        String codigo = proveedor.getCodigo();
         //calcular variación
         double variacionPorcentual = calcularVariacionSt(codigo);
 
@@ -216,7 +218,7 @@ public class PlanillaService {
 
         return 0;
     }
-    private double calcularVariacionSt(String codigo){
+    public double calcularVariacionSt(String codigo){
         //obtener Porcentajes actuales
         int stActual = subirPorcentajeService.obtenerStActual(codigo);
         //obtener Porcentajes antiguos
@@ -227,9 +229,8 @@ public class PlanillaService {
         return variacionPorcentual;
     }
 
-    private int obtenerDescuentoGrasa(ProveedorEntity proveedor) {
-        //codigo del proveedor
-        String codigo = proveedor.getCodigo();
+    public int obtenerDescuentoGrasa(String codigo ) {
+
         //calcular variación
         double variacionPorcentual = calcularVariacionGrasa(codigo);
 
@@ -395,5 +396,10 @@ public class PlanillaService {
             case "D" -> 250;
             default -> 0;
         };
+    }
+
+    public void eliminarPago(String codigo) {
+
+        planillaRepository.deleteByCodigo(codigo);
     }
 }

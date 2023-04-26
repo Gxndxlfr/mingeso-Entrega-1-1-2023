@@ -103,4 +103,9 @@ public class SubirPorcentajeService {
     public int obtenerStActual(String codigo) {
         return Integer.parseInt(porcentajeRepository.getbyCodigo(codigo).getSolidoTotal());
     }
+
+    public String eliminarPorcentaje(String codigo){
+        porcentajeRepository.deleteByCodigo(codigo);
+        return "proveedor eliminado";
+    }
 }

@@ -24,6 +24,8 @@ public class RegistroQuincenaTest {
     void testGuardarRegistroQuincena(){
         String response = registroQuincenaService.guardarRegistroQuincena("0007","30","31","100");
         assertEquals("nueva quincena", response);
+
+        registroQuincenaService.eliminarQuincena("0007");
     }
 
     @Test
@@ -32,6 +34,8 @@ public class RegistroQuincenaTest {
         String response = registroQuincenaService.setAnteriorQuince();
         assertEquals("set quincena anterior", response);
 
+        proveedorService.eliminarProveedor("7");
+        registroQuincenaService.eliminarQuincena("7");
     }
 
     @Test
@@ -41,6 +45,11 @@ public class RegistroQuincenaTest {
 
         int response = registroQuincenaService.getKilosByCodigo("8");
         assertEquals(100,response);
+
+        proveedorService.eliminarProveedor("8");
+
+        registroQuincenaService.eliminarQuincena("8");
+
     }
     @Test
     void testObtenerGrasaAntigua(){
@@ -49,6 +58,9 @@ public class RegistroQuincenaTest {
 
         int response = registroQuincenaService.obtenerGrasaAntigua("9");
         assertEquals(30,response);
+
+        proveedorService.eliminarProveedor("9");
+        registroQuincenaService.eliminarQuincena("9");
     }
     @Test
     void testObtenerStAntigua(){
@@ -57,6 +69,9 @@ public class RegistroQuincenaTest {
 
         int response = registroQuincenaService.obtenerStAntigua("10");
         assertEquals(31,response);
+
+        proveedorService.eliminarProveedor("10");
+        registroQuincenaService.eliminarQuincena("10");
     }
 
     @Test
@@ -67,6 +82,9 @@ public class RegistroQuincenaTest {
         String response = registroQuincenaService.actualizarDatos("11",101,32,31);
 
         assertEquals("registro quincena actualizado",response);
+
+        proveedorService.eliminarProveedor("11");
+        registroQuincenaService.eliminarQuincena("11");
 
     }
 
